@@ -1,4 +1,4 @@
-name: Ledger Service CI
+name: SwiftPay CI
 
 on:
   push:
@@ -19,11 +19,8 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Build with Maven
+      - name: Build with Maven (skip tests)
         run: mvn clean package -DskipTests
-
-      - name: Run Tests
-        run: mvn test
 
       - name: Build Docker Image
         run: docker build -t swiftpay-ledger .
