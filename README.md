@@ -208,6 +208,49 @@ userId: 550e8400-e29b-41d4-a716-446655440000
 Database Verification
 docker exec -it swiftpay-postgres psql -U postgres -d swiftpay -c "SELECT id, status, amount FROM transactions;"
 
+## Load Testing
+
+Service B (Ledger Service) was tested indirectly as part of the full system load test.
+
+- Trigger Source: Kafka events from Transaction Gateway
+- Throughput: ~250 TPS
+- Total Events Processed: ~1,000,000
+- Consumer Group: `ledger-group`
+
+### Purpose
+
+- Validate Kafka consumer performance under load
+- Ensure atomic DB transactions (debit/credit)
+- Verify correct event processing (COMPLETED / FAILED)
+
+## PCAP Capture
+
+A single PCAP capture was taken during the full system load test to analyze inter-service communication.
+
+### Tool Used
+- Wireshark
+
+### Capture Details
+- Interface: Loopback (localhost)
+- File: `load_test_capture.pcapng`
+
+### Observed Traffic
+- Kafka consumption from `payment-initiated` topic
+- Consumer group activity (`ledger-group`)
+- Kafka responses and heartbeats
+- Event publishing to:
+  - `payment-completed`
+  - `payment-failed`
+
+### Note
+
+Since the Ledger Service operates as a Kafka consumer, its activity is captured as part of the shared system-level network traffic rather than isolated API calls.
+
+The PCAP demonstrates:
+- Event-driven communication between services
+- Real-time processing under load
+- Distributed system interaction via Kafka
+
 Author
 Shareena Syed  
 Java Full Stack Developer  
