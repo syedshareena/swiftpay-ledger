@@ -51,7 +51,6 @@ Request:
 GET /v1/ledger/transactions/3fa85f64-5717-4562-b3fc-2c963f66afa6
 ```
 Success Response (200 OK):
-```json
 [
 {
 "id": "abc12345-1234-1234-1234-abcdef123456",
@@ -62,7 +61,6 @@ Success Response (200 OK):
 "status": "COMPLETED",
 "createdAt": "2026-05-03T10:00:00"
 }
-```
 ]
 
 Kafka Events
